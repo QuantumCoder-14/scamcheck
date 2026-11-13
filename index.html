@@ -398,7 +398,11 @@
     Object.keys(ADVICE).forEach(function (category) {
       if (seen[category] && advice.indexOf(ADVICE[category]) === -1) advice.push(ADVICE[category]);
     });
-    if (score >= 40) advice.push('Report the number or the link: call 1930 or file at cybercrime.gov.in.');
+    // only add the reporting line if the category advice has not already said it
+    var mentionsHelpline = advice.some(function (line) { return line.indexOf('1930') !== -1; });
+    if (score >= 40 && !mentionsHelpline) {
+      advice.push('Report the number or the link: call 1930 or file at cybercrime.gov.in.');
+    }
 
     return {
       score: score, verdict: verdict, tone: tone,
